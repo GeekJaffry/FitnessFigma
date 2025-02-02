@@ -155,7 +155,8 @@ h1 {
   /* For smaller screens, change to 2 columns */
   @media (max-width: 600px) {
     .logos .grid-container {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      padding:0px;
     }
   }
   
@@ -185,9 +186,27 @@ h1 {
 }
 @media (max-width: 767px) {
     
-    .first-slide{
-        background-position: center bottom;
-        background-size: 100% auto;
+    .first-slide,
+    .first-slide.png{
+        background:none;
+    }
+    .first-slide .slide .row{
+        background: url('img/women.webp') no-repeat bottom right;
+        background-size:80% auto;
+    } 
+    .first-slide.png .slide .row{
+        background-image: url('img/women.png');
+    }
+    h1 {
+        font-size: 2.4rem;
+        line-height: 3.0rem;
+    }
+    .subtitle.slide-1 {
+        font-size: 2rem;
+        margin-bottom: 5rem;
+    }
+    .buttons-container{
+        margin-top:8rem;
     }
 }
 @media (min-width: 576px) {
