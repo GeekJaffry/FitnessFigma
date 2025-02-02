@@ -121,3 +121,190 @@
             </div>
         </div>
     </div>
+    <script>
+        // Store quiz state
+        const quizState = {
+            currentSlide: 1,
+            gender: null,
+            answers: {}
+        };
+
+        // Handle gender selection and slide transition
+        document.querySelectorAll('.btn[data-gender]').forEach(button => {
+            button.addEventListener('click', function() {
+                quizState.gender = this.dataset.gender;
+                const container = document.querySelector('.container');
+                container.classList.remove('first-slide');
+                showSlide(2);
+                // Animate progress to 15%
+                animateProgress(2, 0, 15);
+            });
+        });
+
+        // Function to animate progress bar with proper reset
+        function animateProgress(slideNumber, start, end) {
+            const slide = document.querySelector(`.slide[data-slide="${slideNumber}"]`);
+            if (!slide) return;
+
+            if (slideNumber === 4) {
+                // Circular progress animation for slide 4
+                let currentProgress = start;
+                const animate = async () => {
+                    // First phase: 0% to 43%
+                    while (currentProgress <= 43) {
+                        setCircularProgress(currentProgress);
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        currentProgress++;
+                    }
+                    
+                    // Pause at 43%
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // Second phase: 43% to 67%
+                    while (currentProgress <= 67) {
+                        setCircularProgress(currentProgress);
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        currentProgress++;
+                    }
+                };
+                animate();
+            } else {
+                // Original linear progress bar animation for other slides
+                const progressBar = slide.querySelector('.progress');
+                if (!progressBar) return;
+
+                progressBar.style.transition = 'none';
+                progressBar.style.width = start + '%';
+                progressBar.offsetHeight; // Force reflow
+
+                progressBar.style.transition = 'width 0.8s ease-in-out';
+                requestAnimationFrame(() => {
+                    progressBar.style.width = end + '%';
+                });
+            }
+        }
+        // Handle slide 2 option selection
+        document.querySelectorAll('[name="cardio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Remove active class from all options in this slide
+                this.closest('.slide').querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add active class to selected option
+                this.closest('.option-btn').classList.add('active');
+                
+                // Store answer
+                quizState.answers.cardio = this.value;
+                
+                // Transition to slide 3 after delay
+                setTimeout(() => {
+                    showSlide(3);
+                    animateProgress(3, 15, 40);
+                }, 800);
+            });
+        });
+        // Handle navigation with fixed animations
+        document.querySelector('.nav-btn.prev.slide2-prev')?.addEventListener('click', () => {
+            if (quizState.currentSlide > 1) {
+                // Handle transition from slide 3 to 2
+                if (quizState.currentSlide === 3) {
+                    showSlide(2);
+                    animateProgress(2, 40, 15);
+                }
+                // Handle transition from slide 2 to 1
+                else if (quizState.currentSlide === 2) {
+                    const container = document.querySelector('.container');
+                    container.classList.remove('second-slide');
+                    container.classList.add('first-slide');
+                    showSlide(1);
+                    animateProgress(2, 15, 0);
+                }
+            }
+        });
+
+        document.querySelector('.nav-btn.next.slide2-next')?.addEventListener('click', () => {
+            if (quizState.currentSlide < 5) {
+                // Handle transition from slide 2 to 3
+                if (quizState.currentSlide === 2) {
+                    showSlide(3);
+                    animateProgress(3, 15, 40);
+                }
+                // Handle other transitions
+                else {
+                    showSlide(quizState.currentSlide + 1);
+                }
+            }
+        });
+
+        document.querySelector('.nav-btn.prev.slide3-prev')?.addEventListener('click', () => {
+            if (quizState.currentSlide > 1) {
+                // Handle transition from slide 3 to 2
+                if (quizState.currentSlide === 3) {
+                    showSlide(2);
+                    animateProgress(2, 40, 15);
+                }
+                // Handle transition from slide 2 to 1
+                else if (quizState.currentSlide === 2) {
+                    const container = document.querySelector('.container');
+                    container.classList.remove('second-slide');
+                    container.classList.add('first-slide');
+                    showSlide(1);
+                    animateProgress(2, 15, 0);
+                }
+            }
+        });
+
+        document.querySelector('.nav-btn.next.slide3-next')?.addEventListener('click', () => {
+            if (quizState.currentSlide < 5) {
+                // Handle transition from slide 2 to 3
+                if (quizState.currentSlide === 2) {
+                    showSlide(3);
+                    animateProgress(3, 15, 40);
+                }
+                // Handle other transitions
+                else {
+                    showSlide(4);
+                    animateProgress(4, 0, 67);
+                }
+            }
+        });
+
+        // Function to show slide with proper transitions
+        function showSlide(slideNumber) {
+            const slides = document.querySelectorAll('.slide');
+            const currentSlide = document.querySelector('.slide.active');
+            const targetSlide = document.querySelector(`.slide[data-slide="${slideNumber}"]`);
+            
+            if (!targetSlide) return;
+
+            // First, mark all slides as inactive but don't hide them yet
+            slides.forEach(slide => {
+                if (slide !== targetSlide && slide !== currentSlide) {
+                    slide.style.visibility = 'hidden';
+                    slide.style.display = 'none';
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Show the target slide (but keep it invisible)
+            targetSlide.style.visibility = 'hidden';
+            targetSlide.style.display = 'block';
+            targetSlide.offsetHeight; // Force reflow
+
+            // If there's a current slide, fade it out
+            if (currentSlide) {
+                currentSlide.classList.remove('active');
+                setTimeout(() => {
+                    currentSlide.style.visibility = 'hidden';
+                    currentSlide.style.display = 'none';
+                }, 100); // Match this with your CSS transition time
+            }
+
+            // Fade in the target slide
+            requestAnimationFrame(() => {
+                targetSlide.style.visibility = 'visible';
+                targetSlide.classList.add('active');
+            });
+            
+            quizState.currentSlide = slideNumber;
+        }
