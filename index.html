@@ -120,7 +120,40 @@
                 </div>
             </div>
         </div>
+        <!-- Slide 4 - Loading Animation Slide -->
+        <div class="slide" data-slide="4">
+            <div class="loading-container">
+                <!-- Left content with heading and loading text -->
+                <div class="loading-content">
+                    <div class="loading-text-content">
+                        <h2>Achieve Your Dream Figure with Quick and Effective Workouts.</h2>
+                        <p class="loading-text">Please wait while we match you with the best routine for maximum fat loss...</p>
+                    </div>
+                    
+                    <!-- Circular Progress Container -->
+                    <div class="circular-progress">
+                        <div class="progress-ring">
+                            <svg width="200" height="200" viewBox="0 0 200 200">
+                                <circle class="progress-ring__circle-bg" r="90" cx="100" cy="100" />
+                                <circle class="progress-ring__circle-progress" r="90" cx="100" cy="100" />
+                            </svg>
+                            <div class="progress-text">
+                                <div class="progress-number">
+                                    <span class="progress-percentage">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right content with image -->
+                <div class="loading-image">
+                    <img src="img/woman-sitting.webp" data-safariimage="img/woman-sitting.png" alt="Fitness Woman" loading="lazy">
+                </div>
+            </div>
+        </div>
     </div>
+
     <script>
         
         // fallback png images for Safari old versions where webp is not supported
@@ -198,6 +231,21 @@
                 });
             }
         }
+
+        // Function to set circular progress
+        function setCircularProgress(percent) {
+            const circle = document.querySelector('.progress-ring__circle-progress');
+            const percentText = document.querySelector('.progress-percentage');
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            
+            const offset = circumference - (percent / 100 * circumference);
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = offset;
+            
+            percentText.textContent = Math.round(percent);
+        }
+
         // Handle slide 2 option selection
         document.querySelectorAll('[name="cardio"]').forEach(radio => {
             radio.addEventListener('change', function() {
@@ -218,6 +266,28 @@
                 }, 800);
             });
         });
+
+        // Handle slide 3 option selection
+        document.querySelectorAll('[name="routine"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Remove active class from all options in this slide
+                this.closest('.slide').querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add active class to selected option
+                this.closest('.option-btn').classList.add('active');
+                
+                // Store answer
+                quizState.answers.routine = this.value;
+                
+                // Transition to slide 4 after delay
+                setTimeout(() => {
+                    showSlide(4);
+                    animateProgress(4, 0, 67); // Start circular progress animation
+                }, 800);
+            });
+        });
+
         // Handle navigation with fixed animations
         document.querySelector('.nav-btn.prev.slide2-prev')?.addEventListener('click', () => {
             if (quizState.currentSlide > 1) {
