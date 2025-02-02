@@ -160,7 +160,47 @@
                 </div>
             </div>
         </div>
+        <!-- Slide 5: Results -->
+        <div class="slide" data-slide="5">
+            <div class="quiz-container results-container">
+                <h2>Achieve Your Dream Figure with Quick and Effective Workouts.</h2>
+                <h3 class="great-news">Great News</h3>
+                
+                <div class="results-content">
+                    <p>Your ideal fat burning routine has been calculated!</p>
+                    
+                    <p>Based on your answers, we’ve identified one simple method that you can start doing TODAY to help maximize results, in mini-mal time</p>
+                    
+                    <p>Don’t worry... it doesn’t require long hours in the gym, running miles on a treadmill, or some super intense cardio workout.</p>
+                    
+                    <p>Instead, this little-known “S.I.T. routine” can be done from the convenience of home, using your body’s own resistance, in just 7-minutes a day.</p>
+                    
+                    <p>But here’s the kicker: The special, hyper-focused movements have the potential to burn fat hours later, even while you sleep!</p>
+                    
+                    <p>In the free presentation below, world renowned nutrition, fitness and weight loss expert, Meredith Shirk, explains it all.</p>
+                    
+                    <p>Discover the virtually foolproof way to finally melt off stubborn fat, regardless of your age or activity level, revealing a thinner, leaner, more toned body that you’ll absolutely LOVE!</p>
+                    
+                    <p>(This major metabolic breakthrough has already helped thousands of women get the body of thei dreams... and you could be next.)</p>
+                    
+                    <button class="watch-presentation-btn">Watch Presentation Now</button>
+                </div>
+            </div>
+        </div>
     </div>
+            
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p> 2024 Cool Company, All Rights Reserved</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <p class="disclaimer">Content, images, and assets on this site may not be reproduced, transmitted, cached, distributed, or used in any way without prior written consent. This site does not offer professional medical advice or services. The ideas, procedures, and suggestions provided here are not a substitute for consulting your physician and should be used only as part of planning your overall health and fitness plan with medical supervision. Our Terms of Service limit liability, and you must read and agree to them before using this site. This information is not intended to diagnose, treat, cure, or prevent any disease. Your results may differ from any claims or testimonials. Typical results are not guaranteed; most people do not achieve results because they do not take consistent action. The examples shown are of individuals who made lifestyle changes and are not typical. Achieving results requires commitment and adherence to a plan</p>
+        </div>
+    </footer>
 
     <script>
         
@@ -222,6 +262,21 @@
                         await new Promise(resolve => setTimeout(resolve, 50));
                         currentProgress++;
                     }
+
+                    // Pause at 67%
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Final phase: 67% to 100%
+                    while (currentProgress <= 100) {
+                        setCircularProgress(currentProgress);
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        currentProgress++;
+                    }
+
+                    // After reaching 100%, transition to slide 5
+                    setTimeout(() => {
+                        showSlide(5);
+                    }, 500);
                 };
                 animate();
             } else {
@@ -369,6 +424,15 @@
             const targetSlide = document.querySelector(`.slide[data-slide="${slideNumber}"]`);
             
             if (!targetSlide) return;
+
+            // Handle container styles based on slide number
+            if (slideNumber === 5) {
+                container.style.overflow = 'visible';
+                container.style.height = 'auto';
+            } else {
+                container.style.overflow = 'hidden';
+                container.style.height = '100vh';
+            }
 
             // First, mark all slides as inactive but don't hide them yet
             slides.forEach(slide => {
