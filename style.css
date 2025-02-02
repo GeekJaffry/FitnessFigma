@@ -73,8 +73,8 @@ body::before {
 }
 
 h1 {
-    font-size: 4.625rem;
-    line-height: 5.55rem;
+    font-size: 4.625rem; /* 74px */
+    line-height: 5.55rem; /* 88.8px */
     font-weight: 500;
     margin-bottom: 1.5rem;
 }
@@ -392,6 +392,186 @@ h1 {
         font-size: 1.5rem;
     }
 }
+
+/* Slide 4 - Loading Animation Styles */
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 60px;
+}
+
+/* Left content styles */
+.loading-content {
+    flex: 0 0 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Text content wrapper to maintain left alignment */
+.loading-text-content {
+    width: 100%;
+}
+
+.loading-content h2 {
+    font-family: 'Jost', sans-serif;
+    font-size: 46px;
+    line-height: 55.2px;
+    font-weight: 400;
+    color: #000000;
+    margin-bottom: 1.5rem;
+}
+
+.loading-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 38px;
+    line-height: 45.6px;
+    font-weight: 400;
+    color: #000000;
+    margin-bottom: 4rem;
+}
+
+/* Right content styles */
+.loading-image {
+    flex: 0 0 55%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.loading-image img {
     max-width: 100%;
     height: auto;
+    transform: scale(1.1); /* Make image slightly larger */
+}
+
+/* Circular Progress Styles */
+.circular-progress {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    align-self: center;
+}
+
+.progress-ring {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.progress-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    overflow: visible;
+}
+
+/* Background circle with gradient */
+.progress-ring__circle-bg {
+    fill: white;
+    stroke: rgba(233, 99, 159, 0.08);
+    stroke-width: 5px;
+    r: 90px;
+    cx: 100px;
+    cy: 100px;
+}
+
+/* Progress circle */
+.progress-ring__circle-progress {
+    fill: #E0E0F9;
+    stroke: #409CD1;
+    stroke-width: 5px;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s ease;
+    r: 90px;
+    cx: 100px;
+    cy: 100px;
+    stroke-dasharray: 565.487;
+    stroke-dashoffset: 565.487;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.progress-number {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.progress-percentage {
+    font-family: 'Encode Sans Condensed', sans-serif;
+    font-size: 72.6px;
+    line-height: 90.75px;
+    font-weight: 900;
+    color: #409CD1;
+}
+
+.progress-number::after {
+    content: '%';
+    font-family: 'Encode Sans Condensed', sans-serif;
+    font-size: 33px;
+    line-height: 41.25px;
+    font-weight: 600;
+    color: #409CD1;
+    margin-left: 2px;
+    position: relative;
+    top: -0.2em;
+}
+
+/* Update the progress circle color */
+.progress-ring__circle-progress {
+    stroke: #409CD1;
+}
+
+/* Adjust background circle color */
+.progress-ring__circle-bg {
+    stroke: rgba(233, 99, 159, 0.08);
+}
+
+@media (max-width: 768px) {
+    .circular-progress {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .progress-ring__circle-bg,
+    .progress-ring__circle-progress {
+        r: 70px;
+        cx: 80px;
+        cy: 80px;
+    }
+    
+    .progress-ring__circle-progress {
+        stroke-dasharray: 439.822;
+        stroke-dashoffset: 439.822;
+    }
+    .progress-percentage {
+        font-size: 60px;
+        line-height: 75px;
+    }
+    
+    .progress-number::after {
+        font-size: 28px;
+        line-height: 35px;
+    }
+    
+    .progress-text {
+        width: 100px;
+        height: 100px;
+    }
 }
