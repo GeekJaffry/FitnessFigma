@@ -123,12 +123,103 @@ h1 {
     left: 0px;
     right: 0px;
 }
-
 .logos .grid-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    max-width: 1200px;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns on large screens */
+    gap: 20px;                           /* Space between grid items */
+    max-width: 1200px;                   /* Maximum container width */
+    margin: 0 auto;                      /* Center the container */
+    padding: 20px;                       /* Optional inner spacing */
+  }
+  
+  /* Style for grid items (optional styling) */
+  .logos .grid-item {
+    display: flex;
+    align-items: center;        /* Vertically center content */
+  justify-content: center;    /* Horizontally center content */
+    text-align: center;                  /* Center the content */
+  }
+  .logos .grid-item img{
+    max-width: 100%;
+    height: auto;
+  }
+  /* Responsive adjustments */
+  
+  /* For medium screens, change to 3 columns */
+  @media (max-width: 1000px) {
+    .logos .grid-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  /* For smaller screens, change to 2 columns */
+  @media (max-width: 600px) {
+    .logos .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  
+/*end Grid container */
+@media (max-width: 1024px) {
+    .container {
+        padding: 40px;
+    }
+
+    h1 {
+        font-size: 3rem;
+        line-height: 3.6rem;
+    }
+
+    .content-left {
+        max-width: 100%;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+    }
+    .first-slide{
+        background-position: top center;
+        background-size: 100% auto;
+    }
+}
+@media (max-width: 767px) {
+    
+    .first-slide{
+        background-position: center bottom;
+        background-size: 100% auto;
+    }
+}
+@media (min-width: 576px) {
+    .container {
+        max-width:540px;
+        padding-bottom: 0px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width:720px
+    }
+}
+
+@media (min-width: 992px) {
+    .container{
+        max-width:960px
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width:1140px
+    }
+}
+
+@media (min-width: 1400px) {
+    .container{
+        max-width:1320px
+    }
+}
     margin: 0 auto;
     padding: 20px;
 }
