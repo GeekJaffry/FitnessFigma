@@ -122,6 +122,21 @@
         </div>
     </div>
     <script>
+        
+        // fallback png images for Safari old versions where webp is not supported
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!support_format_webp()) {
+              document.querySelectorAll('img[data-safariimage]').forEach(function (img) {
+                var safariImage = img.getAttribute('data-safariimage');
+                img.setAttribute('src', safariImage);
+                img.setAttribute('data-src', safariImage);
+                var firstSlide = document.querySelector('.first-slide');
+                if (firstSlide) {
+                    firstSlide.classList.add('png');
+                }
+              });
+            }
+        });
         // Store quiz state
         const quizState = {
             currentSlide: 1,
@@ -308,3 +323,49 @@
             
             quizState.currentSlide = slideNumber;
         }
+        function support_format_webp()
+        {
+        // Detect Safari and check the version
+        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (isSafari) {
+        var safariVersion = navigator.userAgent.match(/Version\/(\d+)/);
+        var macOsVersion = navigator.userAgent.match(/Mac OS X (\d+)_(\d+)_?(\d+)?/);
+        var iOSVersion = navigator.userAgent.match(/OS (\d+)_?(\d+)?/);
+
+        // Check for Safari version 14+
+        if (safariVersion && parseInt(safariVersion[1], 10) >= 14) {
+        // If macOS, check for Big Sur (11) or later
+        if (macOsVersion) {
+        var macMajor = parseInt(macOsVersion[1], 10);
+        var macMinor = parseInt(macOsVersion[2], 10);
+
+        // macOS Big Sur (11) or later supports WebP with Safari 14+
+        if (macMajor > 10 || (macMajor === 10 && macMinor >= 16)) {
+        return true;
+        }
+        }
+        // If iOS, check for iOS 14 or later
+        else if (iOSVersion) {
+        var iOSMajor = parseInt(iOSVersion[1], 10);
+
+        // iOS 14 or later supports WebP with Safari 14+
+        if (iOSMajor >= 14) {
+        return true;
+        }
+        }
+        }
+        }
+
+        // For non-Safari or Safari versions below 14, use the canvas method to check WebP support
+        var elem = document.createElement('canvas');
+        if (!!(elem.getContext && elem.getContext('2d'))) {
+        // Check if WebP is supported by testing the canvas toDataURL with WebP
+        return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+        } else {
+        // If canvas is not supported (very old browsers), return false
+        return false;
+        }
+        }
+    </script>
+</body>
+</html>
