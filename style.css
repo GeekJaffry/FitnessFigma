@@ -37,21 +37,34 @@ body::before {
     min-height: 100vh;
 }
 
-.first-slide {
+.first-slide{
     background: url('img/women.webp') no-repeat right center;
     background-size: contain;
 }
-
-.first-slide.png {
+.first-slide.png{
     background-image: url('img/women.png');
 }
-
-/* Slide 1 specific styles */
-.row {
+.slide {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out;
+    pointer-events: none;
+}
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+    pointer-events: all;
+}
+.row{
     display: flex;
     flex-wrap: wrap;
 }
-
 .content-left {
     flex: 0 0 auto;
     max-width: 60%;
